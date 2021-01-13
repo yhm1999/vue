@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+    <!--cdn远程连接这个axios.js文件,不用再本地下载了.. -->
+    <script type="text/javascript" src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.js"></script>
+    <style>
+
+
+.uls{
+    width: 360px;
+   
+    color: darkgreen;
+    font-size: 20px;
+    border: 1px solid rgb(4, 179, 28);
+    background: url(./images/bg.gif),url(./images/a.png);
+    border-radius: 50%;
+}
+.lis{
+    margin: 10px 10px;
+}
+.spans{
+    display: inline-block;
+   margin-right: 10px;
+   /* width: 50px; */
+   /* background: seagreen; */
+   text-align: center;
+}
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- <h1>{{username}}</h1> -->
+        <button v-on:click="num" >点我有惊喜 👇</button>
+        <ul :class="{uls:a}">
+            <li :key='item._id'  v-for="(item,index) in str " style="list-style: none" :class="{lis:a}">
+               <span :class="{spans:a}"> 用户名：{{item.username}}</span>
+               <span :class="{spans:a}"> 密码：  {{item.password}}</span>
+
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+
+<script>
+
+
+    //  欢迎进入vue元编程的世界
+    
+    var app = new Vue({
+        el: '#app',
+        data: {
+            a:true,
+            id:'',
+        username: '',
+        password: '',
+            str: []
+        },
+        methods: {
+
+            num() {
+                // this.num=this.num+1
+                axios({
+                    //请求的后台的文件路径
+                    url: 'http://localhost:5001/vueaxios',
+                    //请求的方式
+                    method: 'get',
+                    //get方式传递参数：在后台用req.query接受
+                    params: { username: 'zs' }
+
+                }).then(response => {
+                    //数据成功返回过来了
+                    console.log(response)
+                    // //可以根据需要取出data里面的数据，比如：username
+                    this.str=response.data
+                    console.log(this.srt);
+                    
+  
+                    // var obj1 = {username:response.data[0].username,password:response.data[0].password}
+                    // var obj2 = {username:response.data[1].username,password:response.data[1].password}
+                    // var obj3 = {username:response.data[2].username,password:response.data[2].password}
+                    // this.str.push(obj1,obj2,obj3)
+                  
+
+            
+        
+
+
+                }).catch(error => {
+                    console.log(error)
+                })
+
+            }
+        },
+
+        //1、在创建之前 ， new 操作部署能力过程中 ，data、methods等还没部署完成。
+        beforeCreate() {
+            console.log('我进入了生命周期函数beforeCreate里面')
+
+
+
+        },
+
+        //2、创建之后 ，仅仅是将 data methods 已经全部部署完成了
+        created() {
+            console.log('我进入了生命周期created')
+
+        },
+
+        // 3、完部署完成，就等渲染到页面上（经过算法和dom元素的比对和插入），只是还没有渲染到页面 （在此时还可以修改值）
+
+        beforeMount() {
+            console.log('我进入beforeMount了')
+
+        },
+
+        //4、成功的渲染到页面上
+        // 在这里写：
+        mounted() {
+            console.log('我进入mounetd')
+            //axios请求的get请求：
+            //1、从云数据库过来的数据
+            // axios({
+            //     //请求的后台的文件路径
+            //     url: 'http://localhost:5001/vueaxios',
+            //     //请求的方式
+            //     method: 'get',
+            //     //get方式传递参数：在后台用req.query接受
+            //     params:{username: 'zs'}
+
+            // }).then(response => {
+            //     //数据成功返回过来了
+            //     console.log(response)
+            //     //可以根据需要取出data里面的数据，比如：username
+            //     var username = response.data[0].username
+            //     //yhm1
+            //     console.log(username);
+            //     //将username付给this.username，渲染到页面上
+            //     this.username = username
+
+            // }).catch(error => {
+            //     console.log(error)
+            // })
+
+
+            //2、从后台自定义过来的数据
+            // axios({
+            //     //请求的后台的文件路径
+            //     url: 'http://localhost:5001/vueaxios/a',
+            //     //请求的方式
+            //     method: 'get',
+            // }).then(response => {
+            //     //数据成功返回过来了
+            //     console.log(response)
+
+            // }).catch(error => {
+            //     console.log(error)
+            // })
+
+
+
+        },
+
+        // 下面两个分支结构：
+
+        /******更新*******/
+        //数据更新前
+        beforeUpdate() {
+            console.log('我进入beforeUpdate')
+        },
+        //数据更新后
+        updated() {
+            console.log('我进入updated')
+        },
+
+        /*****销毁****/
+        // app.$destroy()手动销毁 回车一瞬间可以获取值的
+        //页面销毁之前
+        beforeDestroy() {
+            console.log('页面销毁之前')
+
+        },
+        //页面销毁之后
+        destroyed() {
+            console.log('页面销毁之后')
+
+        },
+
+
+
+    })
+
+
+
+
+</script>
+
+</html>

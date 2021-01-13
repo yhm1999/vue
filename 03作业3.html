@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+
+<body>
+
+    <div id="app">
+      <h1>{{msg}}</h1>
+    </div>
+
+</body>
+
+<script src="./vue.js"></script>
+<script>
+
+    //  欢迎进入vue元编程的世界
+    var app = new Vue({
+        /**元素挂载点**/
+        el: '#app',
+        /**数据*/
+        data: {
+          
+            msg:'我是初始值',
+         
+        },
+        /**方法*/
+        methods: {
+          
+        },
+        /***watch来侦听data中数据的变化**/
+        watch:{
+          
+
+        },
+
+      /*** 计算**/
+          computed:{
+            aaa(){
+               
+            }
+        },
+
+        /*自定义指令**/
+        directives:{
+           
+           c:{
+                //数据更新时调用
+            update:function(el) {
+               
+            }
+           }
+        },
+
+        /**过滤器**/
+        filters: { 
+
+        },
+
+        /******生命周期钩子函数******/
+        // 触发某个条件而执行；beforeCreate触发部署中这个条件才执行、created触发部署完成这个条件执行
+
+        // 1、这是生命周期函数 beforeCreate  
+        //在创建之前 ， new 操作部署能力过程中 ，data、methods等还没部署完成。
+        // 访问data和methods访问不到的
+        beforeCreate(){
+            console.log('我进入了生命周期函数beforeCreate里面')
+            //undefined
+            console.log(this.fruits)
+            // 报错
+            // this.d()
+           
+          
+        },
+        //2、 这是生命周期函数 created
+        //创建之后 ，仅仅是将 data methods 已经全部部署完成了
+        created(){
+            console.log('我进入了生命周期created')
+            console.log(this.fruits)
+            // 也可以调用d方法
+            this.d()
+        },
+        //3、这是生命周期函数 beforeMount
+        // 完部署完成，就等渲染到页面上（经过算法和dom元素的比对和插入），只是还没有渲染到页面 （在此时还可以修改值）
+        // 这一步 ， 数据还可以做最后的修改 ，马上变
+    
+        beforeMount(){
+            console.log('我进入beforeMount了')
+            console.log(this.fruits)
+             // 也可以调用d方法
+            this.d()
+            //数据还可以做最后的修改更正：
+           if(this.msg = '我是初始值') {
+               this.msg ='我要做最后的变动'
+               console.log(this.msg);
+
+           }
+
+        },
+        // 4、
+        //成功的渲染到页面上
+        mounted(){
+            console.log('我进入mounetd')
+            console.log(this.fruits)
+        },
+
+        // 下面两个分支结构：
+
+        /******更新*******/
+        //数据更新前
+        beforeUpdate(){
+            console.log('我进入beforeUpdate')
+        },
+        //数据更新后
+        updated(){
+            console.log('我进入updated')
+        },
+
+        /*****销毁****/
+        // app.$destroy()手动销毁 回车一瞬间可以获取值的
+        //页面销毁之前
+        beforeDestroy(){
+            console.log('页面销毁之前')
+            // 销毁之前是可以获取data里面的值的
+            // ["apple", "pear", "banana", "orange", __ob__: Observer]
+            console.log(this.fruits)
+
+        },
+        //页面销毁之后
+        destroyed(){
+            console.log('页面销毁之后')
+            //["apple", "pear", "banana", "orange", __ob__: Observer]
+            console.log(this.fruits)
+        },
+       
+        
+
+    })
+
+
+ 
+
+
+</script>
+
+</html>
